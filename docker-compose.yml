@@ -1,0 +1,9 @@
+
+version: "2"
+
+services:
+  ermes:
+    build: .
+    command: ./main
+    env_file:
+      - .env
