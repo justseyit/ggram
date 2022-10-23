@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ahmdrz/goinsta/response"
+	//"github.com/ahmdrz/goinsta/response"
 	"github.com/borteo/ermes/config"
 	humanize "github.com/dustin/go-humanize"
 )
@@ -75,6 +75,7 @@ func (a *App) getFollowers() error {
 
 // Get passed user.ID followers.
 // @param isLimited: if true fetch only the amount of pages defined
+/*
 func (a *App) fetchUserFollowers(vipID int64, isLimited bool) (response.UsersResponse, error) {
 	usersLimit := 1500
 	resp := response.UsersResponse{}
@@ -92,7 +93,7 @@ func (a *App) fetchUserFollowers(vipID int64, isLimited bool) (response.UsersRes
 		resp.NextMaxID = tempResp.NextMaxID
 		resp.Status = tempResp.Status
 	}
-}
+}*/
 
 func (a *App) getUserFollowers(vip *InstagramUser, isLimited bool) error {
 	fmt.Printf("Collecting %s's followers 🐶 \n\n", vip.Username)
@@ -152,7 +153,7 @@ func (a *App) checkUserFollowers(username string) {
 	for _, user := range results {
 		iu := InstagramUser{}
 		json.Unmarshal([]byte(user), &iu)
-		if iu.IsPrivate == false && iu.IsChecked == false {
+		if !iu.IsPrivate && !iu.IsChecked {
 			data = append(data, iu)
 		}
 	}
@@ -166,8 +167,9 @@ func (a *App) checkUserFollowers(username string) {
 	}
 
 	fmt.Printf("🔍  There are %d followers to check; %d more available \n", len(data), totalUsersLen-len(data))
-	var delaySecs time.Duration = time.Duration(config.WAITING_TIME*len(data)) * time.Second
-	fmt.Printf("⏱  %s \n\n", humanize.Time(time.Now().Add(delaySecs)))
+	//Delay as seconds
+	var delay time.Duration = time.Duration(config.WAITING_TIME*len(data)) * time.Second
+	fmt.Printf("⏱  %s \n\n", humanize.Time(time.Now().Add(delay)))
 
 	counter := 0
 	for _, follower := range data {
@@ -264,7 +266,8 @@ func (a *App) showList() {
 
 }
 
-func (a *App) follow() {
+/*
+func (a *App) follow(){
 	// ID := ???
 	// // TODO add a comment?
 	// respFollow, errFollow := a.api.Follow(ID)
@@ -273,3 +276,4 @@ func (a *App) follow() {
 	// }
 	// log.Printf("Started to follow %s - response: %v ", f.Username, respFollow)
 }
+*/

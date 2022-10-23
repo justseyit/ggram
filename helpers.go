@@ -16,7 +16,7 @@ import (
 // sortKeys returns the sorted keys from the follower/ing lists.
 func (a *App) sortKeys(dict map[string]bool) []string {
 	var keys []string
-	for key, _ := range dict {
+	for key := range dict {
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
@@ -24,12 +24,12 @@ func (a *App) sortKeys(dict map[string]bool) []string {
 }
 
 // max returns the greater of two ints (math.Max does float64)
-func max(a, b int) int {
+/*func max(a, b int) int {
 	if a > b {
 		return a
 	}
 	return b
-}
+}*/
 
 // getUserId gets the Instagram user PK ID (an int64) as a string.
 func (a *App) getUserId(username string) string {
@@ -44,7 +44,7 @@ func (a *App) getUserId(username string) string {
 // compareLists compares the following to the followers.
 func (a *App) compareLists() {
 	// See who I am following that doesn't love me back.
-	for username, _ := range a.followings {
+	for username := range a.followings {
 		if _, ok := a.followers[username]; !ok {
 			a.leeches = append(a.leeches, username)
 		}
@@ -59,11 +59,11 @@ func random(val int) int {
 	return rand.Intn(max-min) + min
 }
 
-func checkErr(err error) {
+/*func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
-}
+}*/
 
 func RemoveContents(dir string) error {
 	d, err := os.Open(dir)

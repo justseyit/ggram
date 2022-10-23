@@ -3,15 +3,15 @@ package main
 import (
 	"github.com/ahmdrz/goinsta"
 	scribble "github.com/nanobox-io/golang-scribble"
-	"gopkg.in/mgo.v2"
+	//"gopkg.in/mgo.v2"
 )
 
 // Type App is the Follow-Sync Application.
 type App struct {
 	api        *goinsta.Instagram
-	db         *mgo.Database
+	//db         *mgo.Database
 	db2        *scribble.Driver
-	session    *mgo.Session
+	//session    *mgo.Session
 	username   string
 	password   string
 	followings map[string]bool // who are we following?

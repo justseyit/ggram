@@ -28,7 +28,7 @@ func (a *App) getFilteredData(types string, isLimited bool) []InstagramUser {
 	for _, user := range all {
 		iu := InstagramUser{}
 		json.Unmarshal([]byte(user), &iu)
-		if iu.IsPrivate == false && iu.IsLiked == false && iu.IsGood == true {
+		if !iu.IsPrivate && !iu.IsLiked && iu.IsGood {
 			data = append(data, iu)
 		}
 	}
@@ -58,8 +58,9 @@ func (a *App) likeAndFollow(types string, shouldFollow bool, isLimited bool) {
 		fmt.Printf("\n")
 		log.Printf("\n")
 		fmt.Printf("Progress: %d/%d (%.2f%%) \n", nUsers, len(data), float64(nUsers)/float64(len(data))*float64(100))
-		var delaySecs time.Duration = time.Duration(config.WAITING_TIME*(len(data)-nUsers)) * time.Second
-		fmt.Printf("⏱  %s \n", humanize.Time(time.Now().Add(delaySecs)))
+		//Delay as seconds
+		var delay time.Duration = time.Duration(config.WAITING_TIME*(len(data)-nUsers)) * time.Second
+		fmt.Printf("⏱  %s \n", humanize.Time(time.Now().Add(delay)))
 
 		fmt.Printf("💕  Spreading love to '%+v'\n", user.Username)
 
@@ -86,7 +87,7 @@ func (a *App) likeAndFollow(types string, shouldFollow bool, isLimited bool) {
 			// Don't like more than N pics
 			if nMedia == likeMax || nMedia == len(resp.Items) {
 				// When I reach the limit, I can follow the user
-				if shouldFollow == true {
+				if shouldFollow {
 					_, errFollow := a.api.Follow(user.ID)
 					if errFollow != nil {
 						log.Printf("Got error on Follow: %s", errFollow)
@@ -109,7 +110,7 @@ func (a *App) likeAndFollow(types string, shouldFollow bool, isLimited bool) {
 				break
 			}
 			// Move on if pic already liked
-			if item.HasLiked == true {
+			if item.HasLiked {
 				continue
 			}
 
@@ -142,7 +143,7 @@ func (a *App) likeAndFollow(types string, shouldFollow bool, isLimited bool) {
 
 func (a *App) likeTimeline(timeline response.FeedsResponse) {
 	for _, item := range timeline.Items {
-		if item.HasLiked == true {
+		if item.HasLiked {
 			log.Printf("%v's media already liked: [%v]", item.User.Username, item.ID)
 			continue
 		}

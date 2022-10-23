@@ -10,12 +10,12 @@ import (
 
 // Unfollow ingrates
 func (a *App) Unfollow() {
-	log.Println("Collecting data\n")
+	log.Println("Collecting data")
 	a.getFollowers()
 	a.getFollowings()
 
 	// Compare data.
-	log.Println("Comparing followers and followings ✅ \n")
+	log.Println("Comparing followers and followings ✅")
 	a.compareLists()
 	a.showList()
 
@@ -24,10 +24,10 @@ func (a *App) Unfollow() {
 
 // Like followers's feed
 func (a *App) LikeFeedFollowers(skip bool) {
-	if skip != true {
+	if !skip {
 		// request user interaction
 		c := askForConfirmation("All your stored Followers will be removed. Do you really want to continue?", 3)
-		if c == false {
+		if !c {
 			return
 		}
 		os.RemoveAll(config.DATA_PATH + config.FOLLOWERS)
@@ -40,10 +40,10 @@ func (a *App) LikeFeedFollowers(skip bool) {
 
 // Like followings's feed
 func (a *App) LikeFeedFollowings(skip bool) {
-	if skip != true {
+	if !skip {
 		// request user interaction
 		c := askForConfirmation("All your stored Followings will be removed. Do you really want to continue?", 3)
-		if c == false {
+		if !c {
 			return
 		}
 		os.RemoveAll(config.DATA_PATH + config.FOLLOWINGS)
@@ -56,7 +56,7 @@ func (a *App) LikeFeedFollowings(skip bool) {
 
 // Like and follow user's followers
 func (a *App) ShadowUser(username string, skip bool, noCheck bool) {
-	if skip != true {
+	if !skip {
 		user := a.GetUserByUsername(username)
 
 		if err := a.getUserFollowers(user, true); err != nil {
@@ -65,7 +65,7 @@ func (a *App) ShadowUser(username string, skip bool, noCheck bool) {
 		}
 	}
 
-	if noCheck != true {
+	if !noCheck {
 		a.checkUserFollowers(username)
 	}
 

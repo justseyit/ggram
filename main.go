@@ -62,19 +62,19 @@ func main() {
 	app.InitDB()
 
 	
-	if *timelinePtr == true {
+	if *timelinePtr {
 		app.LikeMyTimeline()
 	}
 
-	if *unfollowPtr == true {
+	if *unfollowPtr {
 		app.Unfollow()
 	}
 
-	if *followersPtr == true {
+	if *followersPtr {
 		app.LikeFeedFollowers(*skipPtr)
 	}
 
-	if *followingsPtr == true {
+	if *followingsPtr {
 		app.LikeFeedFollowings(*skipPtr)
 	}
 
